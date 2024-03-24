@@ -1,0 +1,16 @@
+#local folders
+__pycache__/
+config/
+images
+logs/
+model_weights/
+logstest/
+training_1
+
+#local files
+model.py
+sample.py
+
+logs
+logs02
+model_weights1
