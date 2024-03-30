@@ -1,6 +1,6 @@
 # Causal SNN
 
-This repository contains the code for an ongoing research paper on _Testing a Spiking Neural Network pipeline on the Abstract Causal REasoning dataset_.
+This repository hosts the codebase for our ongoing research on evaluating a Spiking Neural Network (SNN) pipeline using the Abstract Causal Reasoning (ACRE) dataset. Our study aims to explore the capabilities of SNNs in identifying causal relationships within a complex dataset designed for testing cognitive reasoning.
 
 ## Data
 
@@ -14,3 +14,30 @@ To create a virtual environment with conda, run the following commands:
 conda env create -f environment.yml -n causal-snn
 conda activate causal-snn
 ```
+
+## Usage
+
+After activating the environment, you can run the main script to start training the model:
+
+```
+python train_main.py
+```
+
+For testing the model with the ACRE dataset, use:
+
+```
+python test.main.py
+```
+
+## Requirements
+
+- TensorFlow 2.x
+- Sonnet 2.x
+- Numpy
+- Matplotlib (for visualization)
+
+Please refer to environment.yml for a detailed list of dependencies.
+
+## Contact
+
+For any queries related to the codebase, please contact me at syeda.abeera.amir@gmail.com.
