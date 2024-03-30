@@ -36,12 +36,13 @@ rnn_units = 1000
 learning_rate = 1e-4
 n_actions = 3
 epsilon = 1.
-batch_size = 100
+batch_size = 10
 
 n_context = 6
 n_query   = 4
 
-test_dataloader = ACREDataset(batch_size, 'test')
+data_path = 'images'
+test_dataloader = ACREDataset(batch_size, dataset='test', data_path= data_path)
 n_test_batches = test_dataloader.n_batches
 
 scnn = SpikingCNN()

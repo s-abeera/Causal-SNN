@@ -8,6 +8,18 @@ from SpikingRNN import CustomALIF, spike_function
 from Controller import Controller
 import losses as ls
 
+
+scnn_checkpoint_path = "model_weights1/scnn/scnn.ckpt"
+scnn_checkpoint_dir = os.path.dirname(scnn_checkpoint_path)
+
+rnn_checkpoint_path = "model_weights1/rnn/rnn.ckpt"
+rnn_checkpoint_dir = os.path.dirname(rnn_checkpoint_path)
+
+controller_checkpoint_path = "model_weights1/controller/controller.ckpt"
+controller_checkpoint_dir = os.path.dirname(controller_checkpoint_path)
+
+data_path = 'images'
+
 def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, logging=True):
 	"""
 	Trains a model using the ACRE dataset.
@@ -19,8 +31,6 @@ def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, loggi
 		rnn_units (int): The number of units in the RNN layer.
 		logging (bool, optional): Whether to enable logging. Defaults to True.
 	"""
-	# Rest of the code...
-def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, logging=True):
 	
 	# Set up TensorBoard writer
 	if logging:
@@ -39,26 +49,20 @@ def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, loggi
 	n_w_2 = (n_w_1 - n_kernel_2) // n_stride_2 + 1
 	n_inputs = n_w_2 * n_w_2 * n_filters_2
 
-	batch_size = 100
+	batch_size = 10
 	n_time = 10
 	n_actions = 3
-	eps = 0.1
+	eps = 1
 
 	scnn = SpikingCNN()
 	scnn_state = scnn.zero_state(batch_size, tf.float32)
 	cnn_optimizer = tf.keras.optimizers.Adam(cnn_learning_rate)
-	scnn_checkpoint_path = "model_weights1/scnn/scnn.ckpt"
-	scnn_checkpoint_dir = os.path.dirname(scnn_checkpoint_path)
-
+	
 	core = CustomALIF(n_in=n_inputs, n_rec=rnn_units)
 	core_state = core.zero_state(batch_size, tf.float32)
 	rnn_optimizer = tf.keras.optimizers.Adam(rnn_learning_rate)
-	rnn_checkpoint_path = "model_weights1/rnn/rnn.ckpt"
-	rnn_checkpoint_dir = os.path.dirname(rnn_checkpoint_path)
 
 	controller = Controller(n_actions, rnn_units)
-	controller_checkpoint_path = "model_weights1/controller/controller.ckpt"
-	controller_checkpoint_dir = os.path.dirname(controller_checkpoint_path)
 
 	cce = tf.keras.losses.CategoricalCrossentropy()
 
@@ -67,7 +71,7 @@ def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, loggi
 
 	# Create functions for the loops
 	for n_e in range(n_epochs):
-		dataloader = ACREDataset(batch_size, 'train')
+		dataloader = ACREDataset(batch_size, dataset='train', data_path= data_path)
 		n_batches = dataloader.n_batches
 
 		for n_x in range(n_batches):
@@ -133,6 +137,6 @@ def train_model(n_epochs, cnn_learning_rate, rnn_learning_rate, rnn_units, loggi
 		train_summary_writer.close()
 
 	
-train_model(n_epochs=1, cnn_learning_rate=0.0001, rnn_learning_rate=0.01, rnn_units=1000, logging=True)	
+train_model(n_epochs=1, cnn_learning_rate=1e-4, rnn_learning_rate=1e-4, rnn_units=1000, logging=True)	
 	
 	

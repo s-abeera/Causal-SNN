@@ -21,7 +21,7 @@ class ACREDataset:
         normalized (bool): Whether to normalize the images or not. Default is False
     """
 
-    def __init__(self, batch_size, dataset:str, data_path = 'images', img_size = (128, 128), normalized = False):
+    def __init__(self, batch_size, dataset:str, data_path, img_size = (128, 128), normalized = False):
         self.batch_size = batch_size 
         self.shift = self.batch_size * 10
         self.dataset = dataset
